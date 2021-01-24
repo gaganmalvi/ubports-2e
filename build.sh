@@ -1,8 +1,7 @@
 #!/bin/bash
 set -xe
 
-DEVICE=$1
-OUT="$(realpath "$2" 2>/dev/null || echo 'out')"
+OUT="$(realpath "$1" 2>/dev/null || echo 'out')"
 mkdir -p "$OUT"
 
 TMP=$(mktemp -d)
@@ -67,7 +66,7 @@ fi
 "$SCRIPT/make-bootimage.sh" "${TMPDOWN}" "${TMPDOWN}/KERNEL_OBJ" "${TMPDOWN}/halium-boot-ramdisk.img" "${TMP}/partitions/boot.img"
 
 cp -av overlay/* "${TMP}/"
-"$SCRIPT/build-tarball-mainline.sh" $DEVICE "${OUT}" "${TMP}"
+"$SCRIPT/build-tarball-mainline.sh" "${deviceinfo_codename}" "${OUT}" "${TMP}"
 
 rm -r "${TMP}"
 rm -r "${TMPDOWN}"
