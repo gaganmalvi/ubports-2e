@@ -40,6 +40,12 @@ cd "$TMPDOWN"
         git clone https://android.googlesource.com/platform/system/libufdt -b pie-gsi --depth 1
         git clone https://android.googlesource.com/platform/external/dtc -b pie-gsi --depth 1
     fi
+
+    if [ -n "$deviceinfo_bootimg_append_vbmeta" ] && $deviceinfo_bootimg_append_vbmeta; then
+        wget https://dl.google.com/developers/android/qt/images/gsi/vbmeta.img
+        git clone https://android.googlesource.com/platform/external/avb -b android10-gsi --depth 1
+    fi
+
     ls .
 cd "$HERE"
 
@@ -57,7 +63,7 @@ else
     "$SCRIPT/build-kernel.sh" "${TMPDOWN}" "${TMP}/system"
 fi
 
-"$SCRIPT/make-bootimage.sh" "${TMPDOWN}/KERNEL_OBJ" "${TMPDOWN}/halium-boot-ramdisk.img" "${TMP}/partitions/boot.img"
+"$SCRIPT/make-bootimage.sh" "${TMPDOWN}" "${TMPDOWN}/KERNEL_OBJ" "${TMPDOWN}/halium-boot-ramdisk.img" "${TMP}/partitions/boot.img"
 
 cp -av overlay/* "${TMP}/"
 "$SCRIPT/build-tarball-mainline.sh" pro1 "${OUT}" "${TMP}"
