@@ -1,2 +1,2 @@
 #!/bin/sh
-export UC_SHAPE_MIPMAPS=0
+export UC_SHAPE_MIPMAPS=1
